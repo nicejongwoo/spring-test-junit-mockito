@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,6 +62,25 @@ class EmployeeRepositoryTest {
         //then - verify the output
         assertThat(employeeList).isNotNull();
         assertThat(employeeList.size()).isEqualTo(2);
+    }
+
+    @DisplayName("JUnit test for get employee by id operation")
+    @Test
+    void givenEmployeeObject_whenFindById_thenReturnEmployee(){
+        //given - precondition ro setup
+        Employee employee = Employee.builder()
+                .firstName("jongwoo")
+                .lastName("lee")
+                .email("jongwoo@email.com")
+                .build();
+
+        employeeRepository.save(employee);
+
+        //when - action or the behaviour that we are going test
+        Optional<Employee> employeeDb = employeeRepository.findById(employee.getId());
+
+        //then - verify the output
+        assertThat(employeeDb).isNotNull();
     }
 
 }
