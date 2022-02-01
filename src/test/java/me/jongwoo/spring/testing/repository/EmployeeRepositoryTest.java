@@ -125,4 +125,23 @@ class EmployeeRepositoryTest {
         assertThat(updatedEmployee.getFirstName()).isEqualTo("jw");
     }
 
+
+    @DisplayName("JUnit test for delete employee operation")
+    @Test
+    void givenEmployeeObject_whenDelete_thenRemoveEmployee(){
+        //given - precondition ro setup
+        Employee employee = Employee.builder()
+                .firstName("jongwoo")
+                .lastName("lee")
+                .email("jongwoo@email.com")
+                .build();
+        employeeRepository.save(employee);
+
+        //when - action or the behaviour that we are going test
+        employeeRepository.delete(employee);
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employee.getId());
+
+        //then - verify the output
+        assertThat(optionalEmployee).isEmpty();
+    }
 }
