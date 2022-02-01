@@ -186,4 +186,44 @@ class EmployeeRepositoryTest {
         assertThat(savedEmployee).isNotNull();
     }
 
+    @DisplayName("JUnit test for custom native query with index parameters")
+    @Test
+    void givenFirstNameAndLastName_whenFindByNativeQuery_thenReturnEmployeeObject(){
+        //given - precondition ro setup
+        Employee employee = Employee.builder()
+                .firstName("jongwoo")
+                .lastName("lee")
+                .email("jongwoo@email.com")
+                .build();
+        employeeRepository.save(employee);
+        String firstName = employee.getFirstName();
+        String lastName = employee.getLastName();
+
+        //when - action or the behaviour that we are going test
+        Employee savedEmployee = employeeRepository.findByNativeQuery(firstName, lastName);
+
+        //then - verify the output
+        assertThat(savedEmployee).isNotNull();
+    }
+
+    @DisplayName("JUnit test for custom native query with named parameters")
+    @Test
+    void givenFirstNameAndLastName_whenFindByNativeQueryWithNamedParams_thenReturnEmployeeObject(){
+        //given - precondition ro setup
+        Employee employee = Employee.builder()
+                .firstName("jongwoo")
+                .lastName("lee")
+                .email("jongwoo@email.com")
+                .build();
+        employeeRepository.save(employee);
+        String firstName = employee.getFirstName();
+        String lastName = employee.getLastName();
+
+        //when - action or the behaviour that we are going test
+        Employee savedEmployee = employeeRepository.findByNativeQueryWithNamedParams(firstName, lastName);
+
+        //then - verify the output
+        assertThat(savedEmployee).isNotNull();
+    }
+
 }
