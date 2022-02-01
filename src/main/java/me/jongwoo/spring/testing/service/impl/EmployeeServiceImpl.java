@@ -5,6 +5,7 @@ import me.jongwoo.spring.testing.exception.AlreadyExistsException;
 import me.jongwoo.spring.testing.repository.EmployeeRepository;
 import me.jongwoo.spring.testing.service.EmployeeService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class EmployeeServiceImpl implements EmployeeService {
@@ -24,5 +25,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 }
