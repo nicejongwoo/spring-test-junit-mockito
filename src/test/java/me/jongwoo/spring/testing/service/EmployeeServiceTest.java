@@ -17,9 +17,13 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
 
+    @Mock
     private EmployeeRepository employeeRepository;
+
+    @InjectMocks
     private EmployeeServiceImpl employeeService;
     private Employee employee;
 
@@ -31,8 +35,8 @@ class EmployeeServiceTest {
                 .lastName("lee")
                 .email("jongwoo@email.com")
                 .build();
-        employeeRepository = BDDMockito.mock(EmployeeRepository.class);
-        employeeService = new EmployeeServiceImpl(employeeRepository);
+//        employeeRepository = BDDMockito.mock(EmployeeRepository.class);
+//        employeeService = new EmployeeServiceImpl(employeeRepository);
     }
 
 
