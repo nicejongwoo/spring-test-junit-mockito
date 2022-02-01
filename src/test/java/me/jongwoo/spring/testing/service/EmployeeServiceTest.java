@@ -114,5 +114,19 @@ class EmployeeServiceTest {
     }
 
 
+    @DisplayName("JUnit test for getEmployeeById")
+    @Test
+    void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject(){
+        //given - precondition ro setup
+        given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+
+        //when - action or the behaviour that we are going test
+        Optional<Employee> savedEmployee = employeeService.getEmployeeById(1L);
+
+        //then - verify the output
+        assertThat(savedEmployee).isNotNull();
+        assertThat(savedEmployee.get().getEmail()).isEqualTo("jongwoo@email.com");
+    }
+
 
 }
