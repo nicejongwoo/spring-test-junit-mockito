@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -80,6 +81,48 @@ class EmployeeControllerTest {
         response.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(employeeList.size())));
+    }
+
+
+    @DisplayName("JUnit test for getEmployeeById RestAPI with valid employeeId")
+    @Test
+    void givenValidEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() throws Exception {
+        //given - precondition ro setup
+        long id = 1L;
+        Employee employee = Employee.builder()
+                .id(id)
+                .firstName("jongwoo")
+                .lastName("lee")
+                .email("jongwoo@email.com")
+                .build();
+
+        given(employeeService.getEmployeeById(id)).willReturn(Optional.of(employee));
+
+        //when - action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/api/employees/{id}", id));
+
+        //then - verify the output
+        response.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", is(employee.getFirstName())))
+                .andExpect(jsonPath("$.lastName", is(employee.getLastName())))
+                .andExpect(jsonPath("$.email", is(employee.getEmail())));
+    }
+
+
+    @DisplayName("JUnit test for getEmployeeById RestAPI with invalid employeeId")
+    @Test
+    void givenInvalidEmployeeId_whenGetEmployeeById_thenReturnEmpty() throws Exception {
+        //given - precondition ro setup
+        long id = 1L;
+        given(employeeService.getEmployeeById(id)).willReturn(Optional.empty());
+
+        //when - action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/api/employees/{id}", id));
+
+        //then - verify the output
+        response.andDo(print())
+                .andExpect(status().isNotFound());
     }
 
 }
