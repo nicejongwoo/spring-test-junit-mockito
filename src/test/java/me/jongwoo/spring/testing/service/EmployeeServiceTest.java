@@ -21,8 +21,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
@@ -128,5 +128,34 @@ class EmployeeServiceTest {
         assertThat(savedEmployee.get().getEmail()).isEqualTo("jongwoo@email.com");
     }
 
+    @DisplayName("JUnit test for updateEmployee")
+    @Test
+    void givenUpdatedEmployee_whenUpdateEmployee_thenReturnUpdatedEmployeeObejct(){
+        //given - precondition ro setup
+        given(employeeRepository.save(employee)).willReturn(employee);
+        employee.setEmail("jw@email.com");
+        employee.setFirstName("jw");
+
+        //when - action or the behaviour that we are going test
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+
+        //then - verify the output
+        assertThat(updatedEmployee.getEmail()).isEqualTo("jw@email.com");
+        assertThat(updatedEmployee.getFirstName()).isEqualTo("jw");
+    }
+
+
+    @DisplayName("JUnit test for deleteEmployeeById")
+    @Test
+    void givenEmployeeId_whenDeleteEmployeeById_thenNothing(){
+        //given - precondition ro setup
+        willDoNothing().given(employeeRepository).deleteById(1L);
+
+        //when - action or the behaviour that we are going test
+        employeeService.deleteById(1L);
+
+        //then - verify the output
+        verify(employeeRepository, times(1)).deleteById(1L);
+    }
 
 }
