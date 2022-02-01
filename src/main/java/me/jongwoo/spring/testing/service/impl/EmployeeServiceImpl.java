@@ -4,10 +4,12 @@ import me.jongwoo.spring.testing.entity.Employee;
 import me.jongwoo.spring.testing.exception.AlreadyExistsException;
 import me.jongwoo.spring.testing.repository.EmployeeRepository;
 import me.jongwoo.spring.testing.service.EmployeeService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
